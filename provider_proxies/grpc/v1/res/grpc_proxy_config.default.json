@@ -1,3 +1,4 @@
 {
-    "consumer_address": "[::1]:60010"
+    "consumer_address": "[::1]:60010",
+    "consumer_address_advertised": "[::1]:60010"
 }

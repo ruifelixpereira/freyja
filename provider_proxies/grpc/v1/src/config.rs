@@ -9,4 +9,5 @@ use serde::{Deserialize, Serialize};
 pub struct Config {
     /// The set of config values
     pub consumer_address: String,
+    pub consumer_address_advertised: String,
 }

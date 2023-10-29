@@ -110,7 +110,7 @@ impl ProviderProxy for GRPCProviderProxy {
     /// # Arguments
     /// - `entity_id`: the entity id that needs a value
     async fn send_request_to_provider(&self, entity_id: &str) -> Result<(), ProviderProxyError> {
-        let consumer_uri = format!("http://{}", self.config.consumer_address); // Devskim: ignore DS137138
+        let consumer_uri = format!("http://{}", self.config.consumer_address_advertised); // Devskim: ignore DS137138
 
         let operation_result;
         {
@@ -158,7 +158,7 @@ impl ProviderProxy for GRPCProviderProxy {
             .insert(String::from(entity_id), String::from(operation));
 
         if operation == SUBSCRIBE_OPERATION {
-            let consumer_uri = format!("http://{}", self.config.consumer_address); // Devskim: ignore DS137138
+            let consumer_uri = format!("http://{}", self.config.consumer_address_advertised); // Devskim: ignore DS137138
             let mut client = self.provider_client.clone();
             let request = tonic::Request::new(SubscribeRequest {
                 entity_id: String::from(entity_id),
@@ -313,6 +313,7 @@ mod grpc_provider_proxy_v1_tests {
                 let grpc_provider_proxy = GRPCProviderProxy {
                     config: Config {
                         consumer_address: "[::1]:60010".to_string(),
+                        consumer_address_advertised: "[::1]:60010".to_string(),
                     },
                     provider_client: client,
                     entity_operation_map: Mutex::new(HashMap::new()),
